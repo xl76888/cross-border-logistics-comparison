@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>大贸商跨境物流业务流程对比</title>
     <style>
         :root {
@@ -34,40 +35,58 @@
             --compare-strong: #e74c3c;
         }
         
-        body {
-            font-family: Arial, sans-serif;
+        /* 全局样式优化 */
+        * {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        /* 增强容器样式 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             background: var(--container-bg);
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px var(--shadow-color);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: all 0.3s ease;
         }
+        
+        /* 增强标题栏样式 */
         .header {
-            background-color: var(--header-bg);
+            background: linear-gradient(135deg, #2c3e50 0%, #1a5276 100%);
             color: var(--header-color);
-            padding: 15px 0;
-            margin-bottom: 20px;
-            border-radius: 8px 8px 0 0;
+            padding: 18px 0;
+            margin-bottom: 25px;
+            border-radius: 10px 10px 0 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
             position: relative;
             z-index: 10;
         }
+        
         h1 {
             text-align: center;
             margin: 0;
-            font-size: 24px;
+            font-size: 26px;
             flex-grow: 1;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
+        
+        /* 控制按钮区域美化 */
         .controls {
             display: flex;
             justify-content: center;
@@ -75,86 +94,397 @@
             gap: 15px;
             flex-wrap: wrap;
             background-color: var(--container-bg);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px var(--shadow-color);
+            padding: 18px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px var(--shadow-color);
         }
+        
         button {
-            padding: 8px 15px;
+            padding: 12px 22px;
             border: none;
-            border-radius: 4px;
-            background-color: var(--button-bg);
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--button-bg) 0%, var(--button-hover) 100%);
             color: var(--header-color);
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 500;
             transition: all 0.3s;
-            box-shadow: 0 2px 5px var(--shadow-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+        
+        button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        button:hover:before {
+            left: 100%;
+        }
+        
         button:hover {
-            background-color: var(--button-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--shadow-color);
+            background: linear-gradient(135deg, var(--button-hover) 0%, var(--button-bg) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
+        
+        button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+        
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.4);
+        }
+        
+        .direct-shipping-btn:focus {
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.4);
+        }
+        
+        .play-btn:focus {
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.4);
+        }
+        
+        .stop-btn:focus {
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.4);
+        }
+        
+        /* 按钮禁用状态样式 */
+        button:disabled {
+            background: linear-gradient(135deg, #ccc 0%, #999 100%);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        button:disabled:before {
+            display: none;
+        }
+        
+        /* 节点详情美化 */
         .node-details {
             display: none;
-            margin: 20px auto;
-            padding: 18px;
+            margin: 25px auto;
+            padding: 20px;
             background-color: var(--node-details-bg);
-            border-radius: 10px;
-            border-left: 5px solid var(--node-details-border);
+            border-radius: 12px;
+            border-left: 6px solid var(--node-details-border);
             max-width: 800px;
-            transition: background-color 0.3s, transform 0.3s;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            animation: fadeIn 0.3s ease-in-out;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            animation: fadeIn 0.4s ease-in-out;
         }
         
         #node-title {
             color: var(--node-details-border);
             margin-top: 0;
-        }
-        #node-description {
-            line-height: 1.6;
-        }
-        .direct-shipping-btn {
-            background-color: var(--direct-btn-bg);
-        }
-        .direct-shipping-btn:hover {
-            background-color: var(--direct-btn-hover);
-        }
-        .tooltip {
-            position: fixed;
-            background: var(--tooltip-bg);
-            color: var(--tooltip-color);
-            padding: 8px 12px;
-            border-radius: 4px;
-            z-index: 1000;
-            pointer-events: none;
-            font-size: 14px;
-            max-width: 250px;
-            display: none;
+            font-size: 20px;
+            margin-bottom: 12px;
         }
         
-        .play-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 15px 0;
-            background-color: var(--container-bg);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px var(--shadow-color);
+        #node-description {
+            line-height: 1.7;
+            font-size: 15px;
         }
+        
+        /* 按钮样式增强 */
+        .direct-shipping-btn {
+            background: linear-gradient(135deg, var(--direct-btn-bg) 0%, #c0392b 100%);
+        }
+        
+        .direct-shipping-btn:hover {
+            background: linear-gradient(135deg, #d35400 0%, #c0392b 100%);
+        }
+        
         .play-btn {
-            background-color: var(--play-btn-bg);
+            background: linear-gradient(135deg, var(--play-btn-bg) 0%, #1e8449 100%);
         }
+        
         .play-btn:hover {
-            background-color: var(--play-btn-hover);
+            background: linear-gradient(135deg, #2ecc71 0%, #1e8449 100%);
         }
+        
         .stop-btn {
-            background-color: var(--stop-btn-bg);
+            background: linear-gradient(135deg, var(--stop-btn-bg) 0%, #c0392b 100%);
         }
+        
         .stop-btn:hover {
-            background-color: var(--stop-btn-hover);
+            background: linear-gradient(135deg, #e74c3c 0%, #a93226 100%);
+        }
+        
+        /* 卡片容器美化 */
+        .card-container {
+            background-color: var(--container-bg);
+            border-radius: 10px;
+            margin: 18px 0;
+            padding: 18px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: all 0.3s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .card-container:hover {
+            box-shadow: 0 8px 20px var(--shadow-color);
+            transform: translateY(-2px);
+        }
+        
+        /* 流程图节点美化 */
+        .flow-stage-original .stage-icon,
+        .flow-stage-new .stage-icon {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+            transition: all 0.4s ease;
+        }
+
+        .flow-stage-original .stage-icon {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        }
+
+        .flow-stage-new .stage-icon {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        }
+        
+        .flow-stage .stage-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        /* 选项卡美化 */
+        .factory-tab {
+            padding: 12px 22px;
+            background-color: #f0f0f0;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            margin-right: 3px;
+            font-weight: 600;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            transition: all 0.3s ease;
+        }
+
+        .factory-tab:hover {
+            background-color: #f8f8f8;
+            color: #3498db;
+        }
+
+        .factory-tab.active {
+            background-color: white;
+            color: #3498db;
+            padding-bottom: 13px;
+            margin-bottom: -1px;
+            border-top: 3px solid #3498db;
+        }
+        
+        /* 高亮步骤强化 */
+        .highlight-step .step-node {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.3);
+        }
+        
+        /* 增强动画效果 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.15); }
+            100% { opacity: 0.6; transform: scale(1); }
+        }
+        
+        /* 响应式设计 - 移动端适配 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px 10px;
+                margin: 0;
+                max-width: 100%;
+                border-radius: 0;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .controls, .play-controls {
+                flex-direction: column;
+                padding: 12px;
+            }
+            
+            button {
+                width: 100%;
+                margin-bottom: 8px;
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+            
+            .factory-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .factory-tab {
+                flex: 1 1 auto;
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+            
+            .sub-tabs {
+                flex-direction: column;
+            }
+            
+            .sub-tab {
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            .factory-flow {
+                flex-direction: column;
+            }
+            
+            .flow-stage {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .comparison-content {
+                flex-direction: column;
+            }
+            
+            .compare-item {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .compare-item:last-child {
+                border-bottom: none;
+            }
+            
+            .advantage-item {
+                flex: 1 1 100%;
+            }
+            
+            .play-controls {
+                gap: 8px;
+            }
+            
+            .step-indicator {
+                width: 100%;
+                text-align: center;
+                margin: 10px 0;
+            }
+            
+            #prev-step, #next-step {
+                width: 48%;
+                display: inline-block;
+            }
+            
+            .node-details {
+                padding: 15px;
+                margin: 15px auto;
+            }
+            
+            #node-title {
+                font-size: 18px;
+            }
+            
+            #node-description {
+                font-size: 14px;
+            }
+        }
+        
+        /* 小屏幕手机适配 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px 5px;
+            }
+            
+            h1 {
+                font-size: 18px;
+            }
+            
+            .factory-tab {
+                font-size: 12px;
+                padding: 8px 5px;
+            }
+            
+            .flow-stage-original .stage-icon,
+            .flow-stage-new .stage-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 16px;
+            }
+            
+            .stage-title {
+                font-size: 14px;
+            }
+            
+            .stage-desc {
+                font-size: 12px;
+            }
+            
+            .flow-arrow {
+                height: 20px;
+            }
+            
+            .comparison-title {
+                font-size: 16px;
+            }
+            
+            .comparison-header {
+                font-size: 14px;
+                padding: 10px;
+            }
+            
+            .compare-item h4 {
+                font-size: 14px;
+            }
+            
+            .compare-item li {
+                font-size: 12px;
+            }
+            
+            .node-details {
+                padding: 12px;
+            }
+            
+            #node-title {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+            
+            #node-description {
+                font-size: 13px;
+                line-height: 1.5;
+            }
         }
         
         /* 添加可视化标记 */
@@ -634,221 +964,444 @@
         
         /* 流程链路对比样式 */
         .flow-path-wrapper {
+            width: 100%;
+            margin-top: 20px;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .flow-path-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #333;
+            border-left: 4px solid #2980b9;
+            padding-left: 10px;
         }
         
         .flow-path-container {
-            flex: 1;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .flow-path-container h4 {
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .traditional-flow {
-            background-color: #f9f4f7;
-            border-left: 4px solid #e74c3c;
-        }
-        
-        .new-flow {
-            background-color: #f1f9f6;
-            border-left: 4px solid #2ecc71;
-        }
-        
-        .flow-path-divider {
-            font-weight: bold;
-            font-size: 18px;
-            color: #666;
-            margin: 0 15px;
-            width: 50px;
-            height: 50px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f5f5f5;
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-direction: column;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        
+        .traditional-flow-path {
+            border: 1px solid #e74c3c;
+            background-color: #fff9f9;
+        }
+        
+        .new-flow-path {
+            border: 1px solid #27ae60;
+            background-color: #f2fbf6;
+        }
+        
+        .flow-path-boxes {
+            display: flex;
+            gap: 20px;
         }
         
         .flow-path-box {
-            position: relative;
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .flow-path-box h4 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
         }
         
         .flow-path-step {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
-            position: relative;
+            margin-bottom: 10px;
         }
         
-        .path-node {
-            width: 40px;
-            height: 40px;
+        .step-node {
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background-color: #fff;
+            background-color: #3498db;
+            color: white;
             display: flex;
-            align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            z-index: 2;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        .traditional-flow .path-node {
-            background-color: #fadbd8;
-        }
-        
-        .new-flow .path-node {
-            background-color: #d5f5e3;
-        }
-        
-        .path-node-icon {
+            align-items: center;
             font-weight: bold;
-            color: #333;
+            font-size: 0.9em;
+            flex-shrink: 0;
         }
         
-        .traditional-flow .path-node-icon {
-            color: #c0392b;
-        }
-        
-        .new-flow .path-node-icon {
-            color: #27ae60;
-        }
-        
-        .path-line {
-            flex: 1;
-            height: 2px;
-            background-color: #ddd;
-            position: relative;
-            margin: 0 10px;
-        }
-        
-        .traditional-flow .path-line {
-            background-color: #e74c3c;
-            opacity: 0.3;
-        }
-        
-        .new-flow .path-line {
-            background-color: #2ecc71;
-            opacity: 0.3;
-        }
-        
-        .path-text {
-            flex: 2;
-            font-size: 14px;
-            color: #333;
-        }
-        
-        .flow-path-step:last-child {
-            margin-bottom: 0;
-            padding-bottom: 15px;
-        }
-        
-        .flow-path-step:last-child .path-node {
-            margin-bottom: 5px;
-        }
-        
-        .highlight-path-node {
-            transform: scale(1.2);
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.8);
-            border: 2px solid #27ae60;
-        }
-        
-        .flow-path-container .flow-path-step:last-child {
-            position: relative;
-            padding-bottom: 10px;
-            margin-bottom: 5px;
-            background-color: rgba(255, 255, 255, 0.4);
-            border-radius: 8px;
-            padding: 10px;
-        }
-        
-        .traditional-flow .flow-path-step:last-child {
-            background-color: rgba(250, 219, 216, 0.3);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 0;
-        }
-        
-        .new-flow .flow-path-step:last-child {
-            background-color: rgba(213, 245, 227, 0.5);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 0;
-        }
-        
-        .new-flow .flow-path-step:last-child .path-node {
-            width: 50px;
-            height: 50px;
-            border: 2px solid #27ae60;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .traditional-flow .flow-path-step:last-child .path-node {
-            width: 50px;
-            height: 50px;
-            border: 2px solid #c0392b;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .flow-path-step:last-child .path-text {
-            font-size: 16px;
-            font-weight: bold;
+        .step-content {
+            margin-left: 10px;
             flex-grow: 1;
-            text-align: center;
-            margin-top: 10px;
         }
         
-        .highlight-path-node {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.8);
-            border: 3px solid #27ae60 !important;
+        .step-title {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .step-description {
+            font-size: 0.85em;
+            color: #666;
+        }
+        
+        .flow-line {
+            width: 2px;
+            height: 20px;
+            background-color: #3498db;
+            margin-left: 14px;
+        }
+        
+        .highlight-step .step-node {
+            background-color: #f39c12;
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.3);
+        }
+        
+        .highlight-step .step-title {
+            color: #e67e22;
+        }
+        
+        .last-step {
+            background-color: #ffebee;
+            border-radius: 5px;
+            padding: 5px;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .last-step-new {
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            padding: 5px;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .traditional-flow-path .step-node {
+            background-color: #e74c3c;
+        }
+        
+        .traditional-flow-path .flow-line {
+            background-color: #e74c3c;
+        }
+        
+        .new-flow-path .step-node {
+            background-color: #27ae60;
+        }
+        
+        .new-flow-path .flow-line {
+            background-color: #27ae60;
+        }
+        
+        /* 比较区域样式 */
+        .comparison-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 1.5em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .comparison-section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .comparison-header {
+            background-color: #f5f5f5;
+            padding: 12px 15px;
+            margin: 0;
+            font-size: 1.1em;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .highlight-text {
+            background-color: #fff8e1;
+            color: #f57f17;
+        }
+        
+        .comparison-content {
+            display: flex;
+            padding: 0;
         }
         
         .highlight-compare-row {
-            border-left: 4px solid #f1c40f;
-            background-color: #fffbeb;
+            background-color: #fffde7;
+            border: 1px solid #fff9c4;
         }
         
-        /* 路径动画 */
-        @keyframes flow-path-animation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); box-shadow: 0 0 15px rgba(0,0,0,0.2); }
-            100% { transform: scale(1); }
+        .compare-item {
+            flex: 1;
+            padding: 15px;
+            border-right: 1px solid #ddd;
         }
         
-        .animate-path .path-node {
-            animation: flow-path-animation 2s infinite;
+        .compare-item:last-child {
+            border-right: none;
         }
         
-        .animate-path.traditional-flow .path-line {
-            background: linear-gradient(90deg, #e74c3c 0%, #e74c3c 50%, transparent 50%, transparent 100%);
-            background-size: 200% 100%;
-            animation: flow-line 2s infinite linear;
+        .compare-item h4 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1em;
+            margin-bottom: 10px;
         }
         
-        .animate-path.new-flow .path-line {
-            background: linear-gradient(90deg, #2ecc71 0%, #2ecc71 50%, transparent 50%, transparent 100%);
-            background-size: 200% 100%;
-            animation: flow-line 2s infinite linear;
+        .compare-item ul {
+            margin: 0;
+            padding-left: 20px;
         }
         
-        @keyframes flow-line {
-            0% { background-position: 100% 0; }
-            100% { background-position: 0 0; }
+        .compare-item li {
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        /* 优势比较部分样式 */
+        .comparison-advantages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px;
+        }
+        
+        .advantage-item {
+            flex: 1 1 calc(50% - 15px);
+            min-width: 250px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .advantage-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .advantage-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: inline-block;
+            background-color: #f1f8fe;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .advantage-item h4 {
+            color: #2980b9;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .advantage-item p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        /* 新增播放控制区域样式增强 */
+        .play-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: linear-gradient(to right, #f8f9fa, #e9f7ef, #f8f9fa);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(39, 174, 96, 0.2);
+        }
+
+        .play-controls button {
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .step-indicator {
+            background: white;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        #play-animation, #stop-animation {
+            min-width: 120px;
+        }
+
+        #prev-step, #next-step {
+            padding: 10px 15px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .play-btn:not(:disabled) {
+            animation: pulse 2s infinite;
+        }
+
+        /* 触摸设备交互优化 */
+        @media (hover: none) {
+            button, .factory-tab, .sub-tab, .flow-stage {
+                cursor: default;
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+            }
+            
+            button:active, .factory-tab:active, .sub-tab:active, .flow-stage:active {
+                transform: scale(0.98);
+            }
+            
+            .card-container:hover {
+                transform: none;
+                box-shadow: 0 4px 12px var(--shadow-color);
+            }
+        }
+
+        /* 流程图节点移动端优化 */
+        @media (max-width: 768px) {
+            .factory-flow-container {
+                overflow-x: hidden;
+            }
+            
+            .factory-flow {
+                margin-bottom: 30px;
+            }
+            
+            .flow-stage {
+                position: relative;
+                padding: 12px;
+                border-radius: 8px;
+            }
+            
+            .flow-arrow {
+                position: absolute;
+                left: 50%;
+                bottom: -20px;
+                transform: translateX(-50%) rotate(90deg);
+                width: 20px;
+                height: 20px;
+            }
+            
+            .diamond-node {
+                width: 100%;
+                height: auto;
+                padding: 8px 5px;
+                font-size: 12px;
+            }
+            
+            .diamond-content {
+                font-size: 12px;
+            }
+            
+            /* 改进节点动画效果在移动设备上的表现 */
+            .pulse {
+                animation: mobilePulse 2s infinite;
+            }
+            
+            @keyframes mobilePulse {
+                0% {
+                    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.5);
+                }
+                70% {
+                    box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+                }
+                100% {
+                    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+                }
+            }
+            
+            /* 分支流程优化 */
+            .flow-path-branch {
+                flex-direction: column;
+                margin: 15px 0;
+            }
+            
+            .branch-header {
+                width: 100%;
+                margin-bottom: 10px;
+                text-align: center;
+                padding: 8px;
+            }
+            
+            .branch-paths {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .branch-path {
+                width: 100%;
+                margin: 0 0 15px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .flow-stage {
+                padding: 10px;
+                margin-bottom: 25px;
+            }
+            
+            .flow-stage .stage-icon {
+                margin: 0 auto 10px;
+            }
+            
+            .flow-stage .stage-title, 
+            .flow-stage .stage-desc {
+                text-align: center;
+            }
+            
+            .flow-arrow {
+                bottom: -15px;
+                height: 15px;
+            }
+            
+            /* 优化播放控制按钮在极小屏幕上的布局 */
+            #play-animation, #stop-animation {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            #prev-step, #next-step {
+                padding: 8px;
+                font-size: 12px;
+            }
         }
     </style>
     <script>
@@ -868,6 +1421,9 @@
             document.getElementById('stop-animation').addEventListener('click', stopFlowAnimation);
             document.getElementById('next-step').addEventListener('click', nextAnimationStep);
             document.getElementById('prev-step').addEventListener('click', prevAnimationStep);
+            
+            // 初始化子选项卡
+            initSubTabs();
         });
         
         // 全局变量，用于控制动画
@@ -1090,8 +1646,16 @@
             });
             
             // 添加流程路径动画效果
-            document.querySelector('.traditional-flow').classList.add('animate-path');
-            document.querySelector('.new-flow').classList.add('animate-path');
+            const traditionalFlow = document.querySelector('.traditional-flow');
+            const newFlow = document.querySelector('.new-flow');
+
+            if (traditionalFlow) {
+                traditionalFlow.classList.add('animate-path');
+            }
+
+            if (newFlow) {
+                newFlow.classList.add('animate-path');
+            }
             
             // 显示业务差异的详细说明
             document.getElementById('node-details').style.display = 'block';
@@ -1171,91 +1735,210 @@
                 "新模式：货物在途预售→港口→检验检疫→中通保税仓→清关→直接发货到C端";
         }
         
+        // 初始化子选项卡
+        function initSubTabs() {
+            const subTabs = document.querySelectorAll('.sub-tab');
+            
+            subTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 移除所有子选项卡的active类
+                    subTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // 移除所有子选项卡内容的active类
+                    document.querySelectorAll('.sub-tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // 添加当前子选项卡的active类
+                    this.classList.add('active');
+                    
+                    // 显示对应的内容
+                    const target = this.getAttribute('data-target');
+                    document.getElementById(target).classList.add('active');
+                });
+            });
+        }
+        
         // 节点数据对象
         const nodeData = {
-            'A1': {
-                title: '大贸商购买国外商品',
-                description: '大贸商从海外供应商处采购商品，是跨境贸易的起点。'
+            // 传统模式节点
+            A1: {
+                title: "经销商购买国外商品",
+                description: "经销商从国外供应商处采购商品，是跨境贸易的起点。"
             },
-            'B1': {
-                title: '货代公司国际运输',
-                description: '货代公司负责将商品从国外运输到国内港口，包括安排国际物流、船期等，可选择空运或海运方式。'
+            B1: {
+                title: "货代公司国际运输",
+                description: "货代公司负责将商品从国外运输到国内港口，通常通过海运。"
             },
-            'C1': {
-                title: '进入港口',
-                description: '商品抵达国内港口，准备进行海关申报和清关。'
+            C1: {
+                title: "申报清关",
+                description: "港口进行商品的报关手续，确保符合进口要求。"
             },
-            'D1': {
-                title: '申报清关',
-                description: '货代公司代为向海关申报商品信息，缴纳关税等费用。'
+            D1: {
+                title: "分拣入库",
+                description: "商品清关后进行分拣，并入库存储。"
             },
-            'E1': {
-                title: '是否为食品?',
-                description: '判断商品类型，食品类商品需要进行额外的检验检疫。'
+            E1: {
+                title: "销售至批发商",
+                description: "经销商将商品销售给批发商。"
             },
-            'F1': {
-                title: '港内检验检疫',
-                description: '食品类商品需要经过检验检疫部门的检查，确保安全达标。'
+            F1: {
+                title: "批发商仓储",
+                description: "批发商将商品存储在自己的仓库中。"
             },
-            'G1': {
-                title: '清关完成',
-                description: '商品完成所有海关手续，获准入境。'
+            G1: {
+                title: "销售给零售商",
+                description: "批发商将商品分销给零售商。"
             },
-            'H1': {
-                title: '国内物流运输',
-                description: '通过国内物流渠道将商品从港口运输到批发商仓库。'
+            H1: {
+                title: "零售商仓库",
+                description: "零售商将商品存储在自己的仓库中。"
             },
-            'I1': {
-                title: '批发商/小B端',
-                description: '商品先到批发商/小B端仓库，由批发商分销。这是传统模式的中间环节。'
+            I1: {
+                title: "零售至C端",
+                description: "零售商通过网店或线下店铺将商品销售给终端消费者。"
             },
-            'J1': {
-                title: '零售至C端',
-                description: '批发商将商品分销给零售商，最终到达消费者手中。'
+            
+            // 新模式节点
+            A: {
+                title: "大贸商购买国外商品",
+                description: "大贸商从海外供应商处采购商品，是跨境贸易的起点。"
             },
-            'A2': {
-                title: '大贸商购买国外商品',
-                description: '大贸商从海外供应商处采购商品，是跨境贸易的起点。'
+            B: {
+                title: "货代公司国际运输",
+                description: "货代公司负责将商品从国外运输到国内港口，通常通过海运。"
             },
-            'B2': {
-                title: '货代公司国际运输',
-                description: '货代公司负责将商品从国外运输到国内港口，包括安排国际物流、船期等，可选择空运或海运方式。'
+            C: {
+                title: "货物在海上运输时预售",
+                description: "当货物在海上运输途中，中通全球购程序已经向C端消费者预售商品。"
             },
-            'C2': {
-                title: '货物在海上运输时预售',
-                description: '当货物在海上运输途中，中通全球购程序已经向C端消费者预售商品。'
+            D: {
+                title: "C端预售模式",
+                description: "新模式的关键环节，在商品实际到港前就可以向C端消费者预售。"
             },
-            'D2': {
-                title: 'C端预售模式',
-                description: '新模式的关键环节，在商品实际到港前就可以向C端消费者预售。'
+            E: {
+                title: "商品预售出去",
+                description: "C端消费者在商品尚未清关前就完成了购买。"
             },
-            'E2': {
-                title: '商品预售出去',
-                description: 'C端消费者在商品尚未清关前就完成了购买。'
+            F: {
+                title: "货物到达港口",
+                description: "货物抵达国内港口，准备进行后续流程。"
             },
-            'F2': {
-                title: '货物到达港口',
-                description: '货物抵达国内港口，准备进行后续流程。'
+            G: {
+                title: "港内检验检疫",
+                description: "尤其是食品类商品，需要经过检验检疫部门的检查，确保安全达标。"
             },
-            'G2': {
-                title: '港内检验检疫',
-                description: '尤其是食品类商品，需要经过检验检疫部门的检查，确保安全达标。'
+            H: {
+                title: "运输至中通保税仓",
+                description: "货代公司将商品运输至中通保税仓。"
             },
-            'H2': {
-                title: '运输至中通保税仓',
-                description: '货代公司将预售订单的商品运输至中通保税仓。'
+            I: {
+                title: "申报清关",
+                description: "在中通保税仓内对商品进行申报清关。"
             },
-            'I2': {
-                title: '申报清关',
-                description: '在中通保税仓内对商品进行申报清关。'
+            J: {
+                title: "保税仓内分拣打包",
+                description: "清关完成后在保税仓内进行订单分拣打包处理。"
             },
-            'J2': {
-                title: '保税仓内分拣打包',
-                description: '清关完成后在保税仓内进行订单分拣打包处理。'
+            K: {
+                title: "直接发货到C端",
+                description: "将大包直接发货到C端消费者手中，无中间批发环节。"
             },
-            'K2': {
-                title: '直接发货到C端',
-                description: '将大包直接发货到C端消费者手中，无中间批发环节。'
+            
+            // 海运模式节点
+            A2: {
+                title: "大贸商购买国外商品",
+                description: "大贸商从海外供应商处采购商品，是跨境贸易的起点。"
+            },
+            B2: {
+                title: "货代公司国际运输",
+                description: "货代公司负责将商品从国外运输到国内港口，通过海运方式。"
+            },
+            C2: {
+                title: "货物在海上运输时预售",
+                description: "当货物在海上运输途中，中通全球购程序已经向C端消费者预售商品。"
+            },
+            D2: {
+                title: "C端预售模式",
+                description: "新模式的关键环节，在商品实际到港前就可以向C端消费者预售。"
+            },
+            E2: {
+                title: "商品预售出去",
+                description: "C端消费者在商品尚未清关前就完成了购买。"
+            },
+            F2: {
+                title: "货物到达港口",
+                description: "货物抵达国内港口，准备进行后续流程。"
+            },
+            G2: {
+                title: "港内检验检疫",
+                description: "尤其是食品类商品，需要经过检验检疫部门的检查，确保安全达标。"
+            },
+            H2: {
+                title: "运输至中通保税仓",
+                description: "货代公司将预售订单的商品运输至中通保税仓。"
+            },
+            I2: {
+                title: "申报清关",
+                description: "在中通保税仓内对商品进行申报清关。"
+            },
+            J2: {
+                title: "保税仓内分拣打包",
+                description: "清关完成后在保税仓内进行订单分拣打包处理。"
+            },
+            K2: {
+                title: "直接发货到C端",
+                description: "将大包直接发货到C端消费者手中，无中间批发环节。"
+            },
+            L2: {
+                title: "产品卖不完转大贸模式",
+                description: "如果采用1210模式预售的商品没有全部卖完，可以转为1010模式，将剩余商品与大贸一起销售。"
+            },
+            
+            // 空运模式节点
+            A3: {
+                title: "C端预售模式",
+                description: "通过中通全球购程序向C端消费者预售商品，是跨境贸易的起点。"
+            },
+            B3: {
+                title: "商品预售出去",
+                description: "C端消费者完成了购买预售商品。"
+            },
+            C3: {
+                title: "收到预售款",
+                description: "商家收到消费者的预售款项。"
+            },
+            D3: {
+                title: "根据订单采购商品",
+                description: "根据已收到的预售订单，向供应商采购相应数量的商品。"
+            },
+            E3: {
+                title: "货代公司国际运输",
+                description: "货代公司负责将商品从国外运输到国内港口，通过空运方式。"
+            },
+            F3: {
+                title: "货物到达港口",
+                description: "货物抵达国内港口，准备进行后续流程。"
+            },
+            G3: {
+                title: "港内检验检疫",
+                description: "尤其是食品类商品，需要经过检验检疫部门的检查，确保安全达标。"
+            },
+            H3: {
+                title: "运输至中通保税仓",
+                description: "货代公司将商品运输至中通保税仓。"
+            },
+            I3: {
+                title: "申报清关（三单对碰）",
+                description: "在中通保税仓内对商品进行申报清关，采用三单对碰模式（订单、支付单、物流单）。"
+            },
+            J3: {
+                title: "保税仓内分拣打包",
+                description: "清关完成后在保税仓内进行订单分拣打包处理。"
+            },
+            K3: {
+                title: "发货到C端",
+                description: "将商品直接发货到C端消费者手中，无中间批发环节。"
             }
         };
     </script>
@@ -1396,297 +2079,427 @@
             
             <!-- 新贸易模式流程图 -->
             <div id="new-flow-tab" class="factory-tab-content" style="display: none;">
-                <div class="factory-flow-container">
-                    <div class="factory-flow">
-                        <div class="flow-stage flow-stage-new" data-stage-id="A2">
-                            <div class="stage-icon">A2</div>
-                            <div class="stage-title">大贸商购买国外商品</div>
-                            <div class="stage-desc">大贸商从海外供应商处采购商品，是跨境贸易的起点。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
-                        
-                        <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="B2">
-                            <div class="stage-icon">B2</div>
-                            <div class="stage-title">货代公司国际运输</div>
-                            <div class="stage-desc">货代公司负责将商品从国外运输到国内港口，包括安排国际物流、船期等，可选择空运或海运方式。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
-                        
-                        <div class="flow-stage flow-stage-new" data-stage-id="C2">
-                            <div class="stage-icon">C2</div>
-                            <div class="stage-title">货物在海上运输时预售</div>
-                            <div class="stage-desc">当货物在海上运输途中，中通全球购程序已经向C端消费者预售商品。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
-                        
-                        <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="D2">
-                            <div class="stage-icon">D2</div>
-                            <div class="stage-title">C端预售模式</div>
-                            <div class="stage-desc">新模式的关键环节，在商品实际到港前就可以向C端消费者预售。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
-                        
-                        <div class="flow-stage flow-stage-new" data-stage-id="E2">
-                            <div class="stage-icon">E2</div>
-                            <div class="stage-title">商品预售出去</div>
-                            <div class="stage-desc">C端消费者在商品尚未清关前就完成了购买。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
+                <div class="sub-tabs-container">
+                    <div class="sub-tabs">
+                        <div class="sub-tab active" data-target="sea-transport">海运模式</div>
+                        <div class="sub-tab" data-target="air-transport">空运模式</div>
                     </div>
+                    
+                    <!-- 海运模式内容 -->
+                    <div id="sea-transport" class="sub-tab-content active">
+                        <div class="factory-flow-container">
+                            <div class="factory-flow">
+                                <div class="flow-stage flow-stage-new" data-stage-id="A2">
+                                    <div class="stage-icon">A2</div>
+                                    <div class="stage-title">大贸商购买国外商品</div>
+                                    <div class="stage-desc">大贸商从海外供应商处采购商品，是跨境贸易的起点。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="B2">
+                                    <div class="stage-icon">B2</div>
+                                    <div class="stage-title">货代公司国际运输</div>
+                                    <div class="stage-desc">货代公司负责将商品从国外运输到国内港口，通过海运方式。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="C2">
+                                    <div class="stage-icon">C2</div>
+                                    <div class="stage-title">货物在海上运输时预售</div>
+                                    <div class="stage-desc">当货物在海上运输途中，中通全球购程序已经向C端消费者预售商品。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="D2">
+                                    <div class="stage-icon">D2</div>
+                                    <div class="stage-title">C端预售模式</div>
+                                    <div class="stage-desc">新模式的关键环节，在商品实际到港前就可以向C端消费者预售。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="E2">
+                                    <div class="stage-icon">E2</div>
+                                    <div class="stage-title">商品预售出去</div>
+                                    <div class="stage-desc">C端消费者在商品尚未清关前就完成了购买。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                            </div>
 
-                    <div class="factory-flow" style="margin-top: 20px;">
-                        <div class="flow-stage flow-stage-new" data-stage-id="F2">
-                            <div class="stage-icon">F2</div>
-                            <div class="stage-title">货物到达港口</div>
-                            <div class="stage-desc">货物抵达国内港口，准备进行后续流程。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
-                        
-                        <div class="flow-stage flow-stage-new" data-stage-id="G2">
-                            <div class="stage-icon">G2</div>
-                            <div class="stage-title">港内检验检疫</div>
-                            <div class="stage-desc">尤其是食品类商品，需要经过检验检疫部门的检查，确保安全达标。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
-                        
-                        <div class="flow-stage flow-stage-new" data-stage-id="H2">
-                            <div class="stage-icon">H2</div>
-                            <div class="stage-title">运输至中通保税仓</div>
-                            <div class="stage-desc">货代公司将预售订单的商品运输至中通保税仓。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
-                        
-                        <div class="flow-stage flow-stage-new" data-stage-id="I2">
-                            <div class="stage-icon">I2</div>
-                            <div class="stage-title">申报清关</div>
-                            <div class="stage-desc">在中通保税仓内对商品进行申报清关。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
-                        
-                        <div class="flow-stage flow-stage-new" data-stage-id="J2">
-                            <div class="stage-icon">J2</div>
-                            <div class="stage-title">保税仓内分拣打包</div>
-                            <div class="stage-desc">清关完成后在保税仓内进行订单分拣打包处理。</div>
-                            <div class="flow-arrow"></div>
-                        </div>
-                        
-                        <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="K2">
-                            <div class="stage-icon">K2</div>
-                            <div class="stage-title">直接发货到C端</div>
-                            <div class="stage-desc">将大包直接发货到C端消费者手中，无中间批发环节。</div>
+                            <div class="factory-flow" style="margin-top: 20px;">
+                                <div class="flow-stage flow-stage-new" data-stage-id="F2">
+                                    <div class="stage-icon">F2</div>
+                                    <div class="stage-title">货物到达港口</div>
+                                    <div class="stage-desc">货物抵达国内港口，准备进行后续流程。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="G2">
+                                    <div class="stage-icon">G2</div>
+                                    <div class="stage-title">港内检验检疫</div>
+                                    <div class="stage-desc">尤其是食品类商品，需要经过检验检疫部门的检查，确保安全达标。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="H2">
+                                    <div class="stage-icon">H2</div>
+                                    <div class="stage-title">运输至中通保税仓</div>
+                                    <div class="stage-desc">货代公司将预售订单的商品运输至中通保税仓。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="I2">
+                                    <div class="stage-icon">I2</div>
+                                    <div class="stage-title">申报清关</div>
+                                    <div class="stage-desc">在中通保税仓内对商品进行申报清关。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="J2">
+                                    <div class="stage-icon">J2</div>
+                                    <div class="stage-title">保税仓内分拣打包</div>
+                                    <div class="stage-desc">清关完成后在保税仓内进行订单分拣打包处理。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="K2">
+                                    <div class="stage-icon">K2</div>
+                                    <div class="stage-title">直接发货到C端</div>
+                                    <div class="stage-desc">将大包直接发货到C端消费者手中，无中间批发环节。</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flow-path-branch">
+                                <div class="flow-path-branch-header">
+                                    商品没有全部售出的情况 <span class="branch-indicator">1210→1010</span>
+                                </div>
+                                <div class="factory-flow" style="margin-top: 10px;">
+                                    <div class="flow-stage flow-stage-new" data-stage-id="L2">
+                                        <div class="stage-icon">L2</div>
+                                        <div class="stage-title">产品卖不完转大贸模式</div>
+                                        <div class="stage-desc">如果采用1210模式预售的商品没有全部卖完，可以转为1010模式，将剩余商品与大贸一起销售。</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-container" style="margin-top: 30px;">
+                                <h4>新业务流程（海运）：</h4>
+                                <p><strong>1010模式路径：</strong>大贸商购买国外商品→货代公司国际海运→货物在海上运输时预售→C端预售模式→商品预售出去→货物到达港口→港内检验检疫→运输至中通保税仓→申报清关→保税仓内分拣打包→直接发货到C端</p>
+                                <p><strong>1210模式路径：</strong>如果产品卖不完，1210模式可转成1010模式，与大贸商一起销售产品</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card-container" style="margin-top: 30px;">
-                        <h4>新业务流程：</h4>
-                        <ul>
-                            <li>大贸商购买国外商品</li>
-                            <li>货代公司国际运输</li>
-                            <li>货物在海上运输时预售</li>
-                            <li>C端预售模式</li>
-                            <li>商品预售出去</li>
-                            <li>货物到达港口</li>
-                            <li>港内检验检疫</li>
-                            <li>运输至中通保税仓</li>
-                            <li>申报清关</li>
-                            <li>保税仓内分拣打包</li>
-                            <li>直接发货到C端</li>
-                        </ul>
+                    <!-- 空运模式内容 -->
+                    <div id="air-transport" class="sub-tab-content">
+                        <div class="factory-flow-container">
+                            <div class="factory-flow">
+                                <div class="flow-stage flow-stage-new" data-stage-id="A3">
+                                    <div class="stage-icon">A3</div>
+                                    <div class="stage-title">C端预售模式</div>
+                                    <div class="stage-desc">通过中通全球购程序向C端消费者预售商品，是跨境贸易的起点。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="B3">
+                                    <div class="stage-icon">B3</div>
+                                    <div class="stage-title">商品预售出去</div>
+                                    <div class="stage-desc">C端消费者完成了购买预售商品。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="C3">
+                                    <div class="stage-icon">C3</div>
+                                    <div class="stage-title">收到预售款</div>
+                                    <div class="stage-desc">商家收到消费者的预售款项。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="D3">
+                                    <div class="stage-icon">D3</div>
+                                    <div class="stage-title">根据订单采购商品</div>
+                                    <div class="stage-desc">根据已收到的预售订单，向供应商采购相应数量的商品。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="E3">
+                                    <div class="stage-icon">E3</div>
+                                    <div class="stage-title">货代公司国际运输</div>
+                                    <div class="stage-desc">货代公司负责将商品从国外运输到国内港口，通过空运方式。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                            </div>
+
+                            <div class="factory-flow" style="margin-top: 20px;">
+                                <div class="flow-stage flow-stage-new" data-stage-id="F3">
+                                    <div class="stage-icon">F3</div>
+                                    <div class="stage-title">货物到达港口</div>
+                                    <div class="stage-desc">货物抵达国内港口，准备进行后续流程。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="G3">
+                                    <div class="stage-icon">G3</div>
+                                    <div class="stage-title">港内检验检疫</div>
+                                    <div class="stage-desc">尤其是食品类商品，需要经过检验检疫部门的检查，确保安全达标。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="H3">
+                                    <div class="stage-icon">H3</div>
+                                    <div class="stage-title">运输至中通保税仓</div>
+                                    <div class="stage-desc">货代公司将商品运输至中通保税仓。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="I3">
+                                    <div class="stage-icon">I3</div>
+                                    <div class="stage-title">申报清关（三单对碰）</div>
+                                    <div class="stage-desc">在中通保税仓内对商品进行申报清关，采用三单对碰模式（订单、支付单、物流单）。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new" data-stage-id="J3">
+                                    <div class="stage-icon">J3</div>
+                                    <div class="stage-title">保税仓内分拣打包</div>
+                                    <div class="stage-desc">清关完成后在保税仓内进行订单分拣打包处理。</div>
+                                    <div class="flow-arrow"></div>
+                                </div>
+                                
+                                <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="K3">
+                                    <div class="stage-icon">K3</div>
+                                    <div class="stage-title">发货到C端</div>
+                                    <div class="stage-desc">将商品直接发货到C端消费者手中，无中间批发环节。</div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-container" style="margin-top: 30px;">
+                                <h4>新业务流程（空运）：</h4>
+                                <p>C端预售模式→商品预售出去→收到预售款→根据订单采购商品→货代公司国际运输→货物到达港口→港内检验检疫→运输至中通保税仓→申报清关（三单对碰）→保税仓内分拣打包→发货到C端</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <!-- 对比视图 -->
             <div id="comparison-view" class="factory-tab-content" style="display: none;">
-                <div class="flow-comparison">
-                    <!-- 全景流程标题 -->
-                    <h2 class="flow-title">跨境物流新旧模式对比全景</h2>
-                    
-                    <!-- 相同环节 -->
-                    <div class="flow-comparison-row">
-                        <div class="flow-comparison-header" data-description="两种模式在货物来源环节具有相似流程">相同环节</div>
-                        <div class="flow-comparison-content">
-                            <div class="flow-stage-pair">
-                                <div class="flow-stage flow-stage-original" data-stage-id="A1">
-                                    <div class="stage-icon">A1</div>
-                                    <div class="stage-title">大贸商购买国外商品</div>
+                <h2 class="comparison-title">跨境物流新旧模式对比全景</h2>
+                
+                <div class="comparison-section">
+                    <h3 class="comparison-header highlight-text">关键差异点</h3>
+                    <div class="comparison-content highlight-compare-row">
+                        <div class="compare-item">
+                            <h4>传统贸易模式</h4>
+                            <ul>
+                                <li><strong>销售前置：</strong> 商品必须先进入国内，清关后才能销售</li>
+                                <li><strong>时间损耗：</strong> 从海外采购到国内销售周期较长</li>
+                                <li><strong>多级分销：</strong> 经销商→批发商→零售商→消费者</li>
+                                <li><strong>库存风险：</strong> 每一级经销商都需要承担库存风险</li>
+                            </ul>
+                        </div>
+                        <div class="compare-item">
+                            <h4>新贸易模式</h4>
+                            <ul>
+                                <li><strong>销售前置：</strong> 商品在国际运输途中就可预售给C端</li>
+                                <li><strong>时间优化：</strong> 大幅缩短从采购到销售的周期</li>
+                                <li><strong>扁平分销：</strong> 直接连接海外供应商和国内消费者</li>
+                                <li><strong>库存优化：</strong> 预售模式大幅降低库存风险</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="comparison-section">
+                    <h3 class="comparison-header">运输方式对比</h3>
+                    <div class="comparison-content">
+                        <div class="compare-item">
+                            <h4>海运模式（1010/1210）</h4>
+                            <ul>
+                                <li><strong>特点：</strong> 大贸商先采购→海运期间预售→抵港后直发C端</li>
+                                <li><strong>流程：</strong> 购买商品→海运→预售→清关→直发C端</li>
+                                <li><strong>优势：</strong> 成本低，适合大批量商品</li>
+                                <li><strong>劣势：</strong> 运输时间长，一般30-45天</li>
+                                <li><strong>适用品类：</strong> 日用品、家居用品等非急需商品</li>
+                            </ul>
+                        </div>
+                        <div class="compare-item">
+                            <h4>空运模式</h4>
+                            <ul>
+                                <li><strong>特点：</strong> 先预售→收款→采购→空运→直发C端</li>
+                                <li><strong>流程：</strong> 预售→收款→采购→空运→清关→发C端</li>
+                                <li><strong>优势：</strong> 速度快，7-15天可达</li>
+                                <li><strong>劣势：</strong> 成本高，适合高客单价商品</li>
+                                <li><strong>适用品类：</strong> 时令产品、季节性商品、高客单价商品</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="comparison-section">
+                    <h3 class="comparison-header">流程全链路对比</h3>
+                    <div class="flow-path-wrapper">
+                        <div class="flow-path-title">传统模式流程链路</div>
+                        <div class="flow-path-container traditional-flow-path">
+                            <div class="flow-path-step">
+                                <div class="step-node">1</div>
+                                <div class="step-content">
+                                    <div class="step-title">采购阶段</div>
+                                    <div class="step-description">经销商从国外采购商品</div>
                                 </div>
-                                <div class="flow-comparison-arrow">⟹</div>
-                                <div class="flow-stage flow-stage-new" data-stage-id="A2">
-                                    <div class="stage-icon">A2</div>
-                                    <div class="stage-title">大贸商购买国外商品</div>
+                            </div>
+                            <div class="flow-line"></div>
+                            <div class="flow-path-step">
+                                <div class="step-node">2</div>
+                                <div class="step-content">
+                                    <div class="step-title">物流阶段</div>
+                                    <div class="step-description">货代公司负责国际运输</div>
+                                </div>
+                            </div>
+                            <div class="flow-line"></div>
+                            <div class="flow-path-step highlight-step">
+                                <div class="step-node">3</div>
+                                <div class="step-content">
+                                    <div class="step-title">清关阶段</div>
+                                    <div class="step-description">港口报关并完成检验检疫</div>
+                                </div>
+                            </div>
+                            <div class="flow-line"></div>
+                            <div class="flow-path-step">
+                                <div class="step-node">4</div>
+                                <div class="step-content">
+                                    <div class="step-title">分销阶段</div>
+                                    <div class="step-description">经销商→批发商→零售商</div>
+                                </div>
+                            </div>
+                            <div class="flow-line"></div>
+                            <div class="flow-path-step last-step">
+                                <div class="step-node">5</div>
+                                <div class="step-content">
+                                    <div class="step-title">零售阶段</div>
+                                    <div class="step-description">零售至C端</div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- 关键差异 -->
-                    <div class="flow-comparison-row highlight-compare-row">
-                        <div class="flow-comparison-header" data-description="新模式最显著的优势是引入保税仓与预售模式">关键差异点</div>
-                        <div class="flow-comparison-content">
-                            <div class="flow-stage-pair">
-                                <div class="flow-stage flow-stage-original" data-stage-id="B1">
-                                    <div class="stage-icon">B1</div>
-                                    <div class="stage-title">货代公司国际运输</div>
-                                </div>
-                                <div class="flow-comparison-arrow">⟹</div>
-                                <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="C2">
-                                    <div class="stage-icon">C2</div>
-                                    <div class="stage-title">货物在海上运输时预售</div>
-                                </div>
-                            </div>
-                            
-                            <div class="flow-stage-pair">
-                                <div class="flow-stage flow-stage-original" data-stage-id="D1">
-                                    <div class="stage-icon">D1</div>
-                                    <div class="stage-title">申报清关</div>
-                                </div>
-                                <div class="flow-comparison-arrow">⟹</div>
-                                <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="D2">
-                                    <div class="stage-icon">D2</div>
-                                    <div class="stage-title">C端预售模式</div>
-                                </div>
-                            </div>
-                            
-                            <div class="flow-stage-pair">
-                                <div class="flow-stage flow-stage-original highlight-stage" data-stage-id="I1">
-                                    <div class="stage-icon">I1</div>
-                                    <div class="stage-title">批发商/小B端</div>
-                                </div>
-                                <div class="flow-comparison-arrow">⟹</div>
-                                <div class="flow-stage flow-stage-new highlight-stage" data-stage-id="K2">
-                                    <div class="stage-icon">K2</div>
-                                    <div class="stage-title">直接发货到C端</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 业务流程对比 -->
-                    <div class="flow-comparison-row">
-                        <div class="flow-comparison-header">流程链路对比</div>
-                        <div class="flow-comparison-content flow-path-wrapper">
-                            <div class="flow-path-container traditional-flow">
-                                <h4>传统模式</h4>
+                        
+                        <div class="flow-path-container new-flow-path">
+                            <div class="flow-path-title">新模式流程链路（海运/空运）</div>
+                            <div class="flow-path-boxes">
                                 <div class="flow-path-box">
+                                    <h4>海运模式</h4>
                                     <div class="flow-path-step">
-                                        <div class="path-node">
-                                            <div class="path-node-icon">1</div>
+                                        <div class="step-node">1</div>
+                                        <div class="step-content">
+                                            <div class="step-title">采购阶段</div>
+                                            <div class="step-description">大贸商从国外采购商品</div>
                                         </div>
-                                        <div class="path-line"></div>
-                                        <div class="path-text">港口入境</div>
                                     </div>
+                                    <div class="flow-line"></div>
                                     <div class="flow-path-step">
-                                        <div class="path-node">
-                                            <div class="path-node-icon">2</div>
+                                        <div class="step-node">2</div>
+                                        <div class="step-content">
+                                            <div class="step-title">物流+预售</div>
+                                            <div class="step-description">海运途中向C端预售</div>
                                         </div>
-                                        <div class="path-line"></div>
-                                        <div class="path-text">清关检验</div>
                                     </div>
-                                    <div class="flow-path-step">
-                                        <div class="path-node">
-                                            <div class="path-node-icon">3</div>
+                                    <div class="flow-line"></div>
+                                    <div class="flow-path-step highlight-step">
+                                        <div class="step-node">3</div>
+                                        <div class="step-content">
+                                            <div class="step-title">保税处理</div>
+                                            <div class="step-description">运至保税仓并完成清关</div>
                                         </div>
-                                        <div class="path-line"></div>
-                                        <div class="path-text">国内物流</div>
                                     </div>
+                                    <div class="flow-line"></div>
                                     <div class="flow-path-step">
-                                        <div class="path-node">
-                                            <div class="path-node-icon">4</div>
+                                        <div class="step-node">4</div>
+                                        <div class="step-content">
+                                            <div class="step-title">分拣打包</div>
+                                            <div class="step-description">保税仓内订单处理</div>
                                         </div>
-                                        <div class="path-line"></div>
-                                        <div class="path-text">批发商/小B端</div>
                                     </div>
-                                    <div class="flow-path-step">
-                                        <div class="path-node">
-                                            <div class="path-node-icon">5</div>
+                                    <div class="flow-line"></div>
+                                    <div class="flow-path-step last-step-new">
+                                        <div class="step-node">5</div>
+                                        <div class="step-content">
+                                            <div class="step-title">末端配送</div>
+                                            <div class="step-description">直发C端</div>
                                         </div>
-                                        <div class="path-text">零售至C端</div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <div class="flow-path-divider">VS</div>
-                            
-                            <div class="flow-path-container new-flow">
-                                <h4>新模式</h4>
+                                
                                 <div class="flow-path-box">
+                                    <h4>空运模式</h4>
                                     <div class="flow-path-step">
-                                        <div class="path-node">
-                                            <div class="path-node-icon">1</div>
+                                        <div class="step-node">1</div>
+                                        <div class="step-content">
+                                            <div class="step-title">预售阶段</div>
+                                            <div class="step-description">C端预售并收款</div>
                                         </div>
-                                        <div class="path-line"></div>
-                                        <div class="path-text">货物海运预售</div>
                                     </div>
-                                    <div class="flow-path-step">
-                                        <div class="path-node">
-                                            <div class="path-node-icon">2</div>
+                                    <div class="flow-line"></div>
+                                    <div class="flow-path-step highlight-step">
+                                        <div class="step-node">2</div>
+                                        <div class="step-content">
+                                            <div class="step-title">按需采购</div>
+                                            <div class="step-description">根据预售订单采购</div>
                                         </div>
-                                        <div class="path-line"></div>
-                                        <div class="path-text">港口检验检疫</div>
                                     </div>
+                                    <div class="flow-line"></div>
                                     <div class="flow-path-step">
-                                        <div class="path-node">
-                                            <div class="path-node-icon">3</div>
+                                        <div class="step-node">3</div>
+                                        <div class="step-content">
+                                            <div class="step-title">空运物流</div>
+                                            <div class="step-description">国际空运至国内港口</div>
                                         </div>
-                                        <div class="path-line"></div>
-                                        <div class="path-text">中通保税仓</div>
                                     </div>
-                                    <div class="flow-path-step">
-                                        <div class="path-node">
-                                            <div class="path-node-icon">4</div>
+                                    <div class="flow-line"></div>
+                                    <div class="flow-path-step highlight-step">
+                                        <div class="step-node">4</div>
+                                        <div class="step-content">
+                                            <div class="step-title">三单对碰</div>
+                                            <div class="step-description">保税仓内特殊清关模式</div>
                                         </div>
-                                        <div class="path-line"></div>
-                                        <div class="path-text">清关与分拣</div>
                                     </div>
-                                    <div class="flow-path-step">
-                                        <div class="path-node highlight-path-node">
-                                            <div class="path-node-icon">5</div>
+                                    <div class="flow-line"></div>
+                                    <div class="flow-path-step last-step-new">
+                                        <div class="step-node">5</div>
+                                        <div class="step-content">
+                                            <div class="step-title">末端配送</div>
+                                            <div class="step-description">发货到C端</div>
                                         </div>
-                                        <div class="path-text">直发C端</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- 优势说明 -->
-                    <div class="flow-comparison-row">
-                        <div class="flow-comparison-header" data-description="新贸易模式通过流程优化和保税仓体系，实现了多方面的提升">直接发货到C端 - 新模式的核心优势</div>
-                        <div class="flow-comparison-content" style="display: block;">
-                            <div class="card-container comparison-advantages">
-                                <div class="advantage-item">
-                                    <div class="advantage-icon">⏱️</div>
-                                    <div class="advantage-content">
-                                        <h4>时间优化</h4>
-                                        <p>新模式支持商品在海上运输时预售，无需等待货物清关后才能销售，缩短交易周期</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="advantage-item">
-                                    <div class="advantage-icon">💰</div>
-                                    <div class="advantage-content">
-                                        <h4>成本降低</h4>
-                                        <p>减少批发商/小B端中转环节，降低整体物流成本，让消费者获得更实惠的价格</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="advantage-item">
-                                    <div class="advantage-icon">🔄</div>
-                                    <div class="advantage-content">
-                                        <h4>流程优化</h4>
-                                        <p>整合保税仓储与物流配送，形成一站式服务，简化流程，提高效率</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="advantage-item">
-                                    <div class="advantage-icon">📦</div>
-                                    <div class="advantage-content">
-                                        <h4>仓储创新</h4>
-                                        <p>利用中通保税仓进行统一管理，先检验检疫，再进入保税仓，然后申报清关</p>
-                                    </div>
-                                </div>
-                            </div>
+                </div>
+                
+                <div class="comparison-section">
+                    <h3 class="comparison-header">新模式优势比较</h3>
+                    <div class="comparison-advantages">
+                        <div class="advantage-item">
+                            <div class="advantage-icon">⏱️</div>
+                            <h4>时间优化</h4>
+                            <p>海运模式：商品在运输过程中就开始预售，实现时间差利用</p>
+                            <p>空运模式：从预售到交付，7-15天快速完成全流程</p>
+                        </div>
+                        <div class="advantage-item">
+                            <div class="advantage-icon">💰</div>
+                            <h4>成本优化</h4>
+                            <p>海运模式：利用海运低成本，同时减少中间环节成本</p>
+                            <p>空运模式：虽然运输成本高，但按需采购避免库存成本</p>
+                        </div>
+                        <div class="advantage-item">
+                            <div class="advantage-icon">🔄</div>
+                            <h4>流程优化</h4>
+                            <p>海运模式：预售+直发C端，缩短流通环节</p>
+                            <p>空运模式：先销售再采购，需求驱动型供应链</p>
+                        </div>
+                        <div class="advantage-item">
+                            <div class="advantage-icon">📦</div>
+                            <h4>仓储创新</h4>
+                            <p>海运模式：保税仓直发，减少仓储环节</p>
+                            <p>空运模式：几乎零库存经营，优化资金周转</p>
                         </div>
                     </div>
                 </div>
